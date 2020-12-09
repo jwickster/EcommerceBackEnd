@@ -12,15 +12,15 @@ router.get('/', async(req, res) => {
     // find all categories
     // be sure to include its associated Products
     try {
-        const productData = await Product.findByPk(req.params.id, {
+        const catergoryData = await Category.findByPk(req.params.id, {
             include: [{
                 model: Reader
             }],
         });
 
-        if (!productData) {
+        if (!categoryData) {
             res.status(404).json({
-                message: 'Product not found with that ID'
+                message: 'Category not found with that ID'
             });
             return;
         }
@@ -48,7 +48,6 @@ router.get('/:id', async(req, res) => {
             });
             return;
         }
-
         res.status(200).json(dynamicID);
     } catch (err) {
         res.status(500).json(err);
@@ -58,7 +57,7 @@ router.get('/:id', async(req, res) => {
 router.post('/', async(req, res) => {
     // create a new category
     try {
-        const categoryData = await Product.create({
+        const categoryData = await Category.create({
             reader_id: req.body.reader_id,
         });
         res.status(200).json(locationData);
