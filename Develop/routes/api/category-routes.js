@@ -14,7 +14,7 @@ router.get('/', async(req, res) => {
     try {
         const catergoryData = await Category.findByPk(req.params.id, {
             include: [{
-                model: Reader
+                //TODO
             }],
         });
 
@@ -28,8 +28,6 @@ router.get('/', async(req, res) => {
     } catch (err) {
         res.status(500).json(err);
     }
-
-
 });
 
 router.get('/:id', async(req, res) => {
@@ -38,7 +36,7 @@ router.get('/:id', async(req, res) => {
     try {
         const dynamicID = await Product.destroy({
             where: {
-                id: req.params.id,
+                //TODO
             },
         });
 
@@ -57,17 +55,41 @@ router.get('/:id', async(req, res) => {
 router.post('/', async(req, res) => {
     // create a new category
     try {
-        const categoryData = await Category.create({
-            reader_id: req.body.reader_id,
+        const putData = await User.update(req.body, {
+            where: {
+                id: req.params.id,
+            },
         });
-        res.status(200).json(locationData);
+        if (!putData[0]) {
+            res.status(404).json({
+                message: 'No user with this id!'
+            });
+            return;
+        }
+        res.status(200).json(putData);
     } catch (err) {
-        res.status(400).json(err);
+        res.status(500).json(err);
     }
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', async(req, res) => {
     // update a category by its `id` value
+    try {
+        const userData = await User.update(req.body, {
+            where: {
+                //id: req.params.id,
+            },
+        });
+        if (!userData[0]) {
+            res.status(404).json({
+                message: 'No user with this id!'
+            });
+            return;
+        }
+        res.status(200).json(userData);
+    } catch (err) {
+        res.status(500).json(err);
+    }
 });
 
 router.delete('/:id', async function(req, res) {
@@ -75,7 +97,7 @@ router.delete('/:id', async function(req, res) {
     try {
         const deleteProductData = await Product.destroy({
             where: {
-                id: req.params.id,
+                // id: req.params.id,
             },
         });
 
