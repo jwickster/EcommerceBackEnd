@@ -55,7 +55,7 @@ router.get('/:id', async(req, res) => {
 router.post('/', async(req, res) => {
     // create a new category
     try {
-        const putData = await User.update(req.body, {
+        const putData = await Category.update(req.body, {
             where: {
                 id: req.params.id,
             },

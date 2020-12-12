@@ -73,10 +73,8 @@ router.put('/:id', (req, res) => {
         .then((productTags) => {
             // get list of current tag_ids
             const productTagIds = productTags.map(({
-                tag_id
-            }) => {
-                return tag_id;
-            });
+                tag _id
+            }) => tag_id);
             // create filtered list of new tag_ids
             const newProductTags = req.body.tagIds
                 .filter((tag_id) => !productTagIds.includes(tag_id))
