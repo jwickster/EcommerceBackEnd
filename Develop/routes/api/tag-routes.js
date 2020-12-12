@@ -12,35 +12,35 @@ const {
 router.get('/', (req, res) => {
     // find all tags
     // be sure to include its associated Product data
-    
-    try{
+
+    try {
         const productTags = Tag.findAll({
             include: [{
                 all: true,
                 nested: true
             }],
         });
-        res.render('products');///test to see if this works
-        res.status(200).json(productTags);//return 200 code
-    }catch(err){
-        console.log(err);//debugging purposes
-        res.status(500).json(err);//return a 500 code
+        res.render('products'); ///test to see if this works
+        res.status(200).json(productTags); //return 200 code
+    } catch (err) {
+        console.log(err); //debugging purposes
+        res.status(500).json(err); //return a 500 code
     }
 });
 
 router.get('/:id', (req, res) => {
     // find a single tag by its `id`
     // be sure to include its associated Product data
-    
-        try{
-            const productId = Tag.findById(req.params.id){
-                res.status(200).json(productId);//return 200 code
-            }
-        }catch(err){
-            console.log(err);//debugging purposes
-            res.status(500).json(err);//return a 500 code
+
+    try {
+        const productId = Tag.findById(req.params.id) {
+            res.status(200).json(productId); //return 200 code
         }
-    });
+    } catch (err) {
+        console.log(err); //debugging purposes
+        res.status(500).json(err); //return a 500 code
+    }
+});
 
 
 router.post('/', (req, res) => {
@@ -56,7 +56,7 @@ router.post('/', (req, res) => {
 router.put('/:id', (req, res) => {
     // update a tag's name by its `id` value
     try {
-        const putData =  Tag.update(req.body, {
+        const putData = Tag.update(req.body, {
             where: {
                 id: req.params.id,
             },
@@ -75,24 +75,24 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
     // delete on tag by its `id` value
-    try{
+    try {
         const deleteTagById = Product.destroy({
-            where:{
+            where: {
                 id: req.params.id,
             },
         });
-        
-        if(!deleteTagById){
+
+        if (!deleteTagById) {
             res.status(404).json({
                 message: 'No tag found with that id!'
             })
         }
-        
-    }catch (err) {
+
+    } catch (err) {
         res.status(500).json(err);
-        
+
     }
-    
+
 });
 
 module.exports = router;
