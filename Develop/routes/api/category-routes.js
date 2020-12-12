@@ -37,6 +37,9 @@ router.get('/:id', async(req, res) => {
         const dynamicID = await Product.destroy({
             where: {
                 //TODO
+                Category: {
+                    id: req.params.id,
+                }
             },
         });
 
@@ -79,6 +82,7 @@ router.put('/:id', async(req, res) => {
         const userData = await User.update(req.body, {
             where: {
                 //id: req.params.id,
+                id: req.params.id,
             },
         });
         if (!userData[0]) {
@@ -99,6 +103,7 @@ router.delete('/:id', async function(req, res) {
         const deleteProductData = await Product.destroy({
             where: {
                 // id: req.params.id,
+                id: req.params.id,
             },
         });
 

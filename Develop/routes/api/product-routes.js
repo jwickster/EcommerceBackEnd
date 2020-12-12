@@ -14,12 +14,34 @@ const {
 router.get('/', (req, res) => {
     // find all products
     // be sure to include its associated Category and Tag data
+    try{
+        const productTag = Product.findALL();
+        const tagData = Category.findAll();
+        const categoryData = Category.findAll();
+        res.status(200).json(productTag, tagData, categoryData);
+        
+    }catch(err){
+        res.status(500).json(err)
+    }
 });
 
 // get one product
 router.get('/:id', (req, res) => {
     // find a single product by its `id`
     // be sure to include its associated Category and Tag data
+    try {
+        const pData =  Product.findById(req.params.id);;
+        if (!pData) {
+            res.status(404).json({
+                message: 'No product with this id!'
+            });
+            return;
+        }
+        res.status(200).json(pData);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+    
 });
 
 // create new product
@@ -32,6 +54,7 @@ router.post('/', (req, res) => {
         tagIds: [1, 2, 3, 4]
       }
     */
+    
     Product.create(req.body)
         .then(function(product) {
             // if there's product tags, we need to create pairings to bulk create in the ProductTag model
