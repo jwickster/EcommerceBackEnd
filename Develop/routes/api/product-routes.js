@@ -21,7 +21,7 @@ router.get('/', (req, res) => {
         res.status(200).json(productTag, tagData, categoryData);
         
     }catch(err){
-        res.status(500).json(err)
+        res.status(500).json(err);
     }
 });
 
@@ -30,7 +30,7 @@ router.get('/:id', (req, res) => {
     // find a single product by its `id`
     // be sure to include its associated Category and Tag data
     try {
-        const pData =  Product.findById(req.params.id);;
+        const pData =  Product.findById(req.params.id);
         if (!pData) {
             res.status(404).json({
                 message: 'No product with this id!'
