@@ -16,6 +16,7 @@ router.get('/', (req, res) => {
     try {
         const productTags = Tag.findAll({
             include: [{
+                include: Product.tags,
                 all: true,
                 nested: true
             }],
@@ -32,22 +33,59 @@ router.get('/:id', function(req, res) {
             // find a single tag by its `id`
             // be sure to include its associated Product data
             try {
-                const productId = Tag.findById(req.params.id); {
-                    (200).json(productId); //return 200 code
-                } catch (err) {
-                    console.log(err); //debugging purposes
-                    res.status(500).json(err); //return a 500 code
+                const singleTagById = Tag.findByPk(req.params.id, {
+                    include: true
+                });
+
+                if (singleTagById) {
+                    res.status(200).json({
+                        message: 'Tag found with that id!'
+                    });
+                } else {
+                    res.status(404).json({
+                        message: 'Tag not found!'
+                    });
                 }
-            });
+            } catch (err) {
+                res.status(500).json({
+                    message: 'Server side error '
+                });
+
+            }
+        }
+
+
+
+        // try {
+        //     const productId = Tag.findByPk(req.params.id); {
+        //         if(!productId){
+        //             res.status(404).json({
+        //                 message: 'Tag not found',
+        //             });
+        //         }
+        //         (200).json(productId); //return 200 code
+        //     } catch (err) {
+        //         console.log(err); //debugging purposes
+        //         res.status(500).json(err); //return a 500 code
+        //     }
+        // });
 
 
         router.post('/', function(req, res) {
             // create a new tag
             try {
                 const tagData = Tag.create(req.body);
-                res.status(200).json(tagData);
+                res.status(500).json(tagData, {
+                    message: '500 - server side error' + tagData.message,
+                });
             } catch (err) {
-                res.status(400).json(err);
+                res.status(400).json(err, {
+                    message: '400 - Bad Request error + ' + err.message,
+                });
+            } finally {
+                res.status(200).json(tagData, {
+                    message: 'Success!',
+                });
             }
         });
 
@@ -74,7 +112,7 @@ router.get('/:id', function(req, res) {
         router.delete('/:id', (req, res) => {
             // delete on tag by its `id` value
             try {
-                const deleteTagById = Product.destroy({
+                const deleteTagById = Tag.destroy({
                     where: {
                         id: req.params.id,
                     },
@@ -83,7 +121,9 @@ router.get('/:id', function(req, res) {
                 if (!deleteTagById) {
                     res.status(404).json({
                         message: 'No tag found with that id!'
-                    })
+                    });
+                } else {
+                    res.status(200).json(deleteTagById);
                 }
 
             } catch (err) {
