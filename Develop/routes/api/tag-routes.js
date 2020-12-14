@@ -75,7 +75,6 @@ router.get('/:id', function(req, res) {
                         res.status(500).json({
                             message: '500 - bad server'
                         });
-
                     }
 
                 } catch (err) {
@@ -124,7 +123,6 @@ router.get('/:id', function(req, res) {
 
                 } catch (err) {
                     res.status(500).json(err);
-
                 }
 
             });

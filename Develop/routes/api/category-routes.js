@@ -12,8 +12,8 @@ router.get('/', async(req, res) => {
     // find all categories
     // be sure to include its associated Products
     try {
-        const catergoryData = await Category.findAll({
-            include: [Product],
+        const categoryData = await Category.findAll({
+            include: Product,
         });
 
         if (!categoryData) {
@@ -59,13 +59,13 @@ router.post('/', async(req, res) => {
         const putData = await Category.create(req.body);
         if (!putData) {
             res.status(404).json({
-                message: 'Cannot create a new category with this id!'
+                message: 'Cannot create a new category with this id! - 404 error'
             });
             return;
         }
-        res.status(200).json(putData);
+        res.status(200).json(putData + '200 - good to go!');
     } catch (err) {
-        res.status(500).json(err);
+        res.status(500).json(err + ' - 500 error');
     }
 });
 
@@ -79,7 +79,7 @@ router.put('/:id', async(req, res) => {
                 category_name: req.body.tag_name,
             },
         });
-        if (!userData[0]) {
+        if (!userData) {
             res.status(404).json({
                 message: 'No user with this id!'
             });
@@ -103,13 +103,13 @@ router.delete('/:id', async function(req, res) {
 
         if (!deleteProductData) {
             res.status(404).json({
-                message: 'No library card found with that id!'
+                message: 'No library card found with that id! - 404 error'
             });
             return;
         }
-        res.status(200).json(libraryCardData);
+        res.status(200).json(libraryCardData + '200 - good to go!');
     } catch (err) {
-        res.status(500).json(err);
+        res.status(500).json(err.message + ' - 500 error');
     }
 });
 
